@@ -12,4 +12,19 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Force-enable nitro with the Netlify preset so the SSR server is built and deployed
+  // as a Netlify Function on Netlify's build infra. Without an explicit `nitro` option,
+  // the Lovable config only runs nitro inside the Lovable sandbox and otherwise skips it,
+  // producing a client-only build with no index.html — nothing usable to serve.
+  // The output dirs match the Netlify preset's expectations:
+  //   - server function -> .netlify/functions-internal/server/{main,server}.mjs
+  //   - static assets + _redirects/_headers -> dist (the publish directory)
+  nitro: {
+    preset: "netlify",
+    output: {
+      dir: ".netlify/functions-internal",
+      serverDir: ".netlify/functions-internal/server",
+      publicDir: "dist",
+    },
+  },
 });

@@ -1,8 +1,8 @@
 [build]
   command = "npm install && npm run build"
-  publish = "dist/client"
+  publish = "dist"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# This is an SSR app. Routing is handled by the nitro-generated Netlify Function
+# (.netlify/functions-internal/server, path "/*", static assets preferred) together
+# with the _redirects file nitro writes into the publish directory. A manual SPA
+# redirect to /index.html is intentionally NOT used — there is no static index.html.
